@@ -33,6 +33,7 @@ contract AccountTest is Test {
     }
 
     function testCall() public {
+        console.log("vm.addr(1):", vm.addr(1));
         nft.mint(vm.addr(1), 1);
 
         address account =

@@ -257,6 +257,11 @@ contract AccountProxyTest is Test {
         vm.prank(owner);
         ERC6551AccountUpgradeable(payable(account)).upgrade(address(implementation2));
 
+        // Test for failing to upgrade to a contract that does not implement the interface
+        vm.prank(owner);
+        vm.expectRevert("disabled");
+        ERC6551AccountUpgradeable(payable(account)).upgrade(address(implementation2));
+
         bytes32 rawImplementation =
             vm.load(account, 0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc);
 

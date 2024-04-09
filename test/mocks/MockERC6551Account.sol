@@ -48,4 +48,8 @@ contract MockERC6551Account is IERC165, IERC6551Account, IERC6551Executable {
         if (interfaceId == 0xffffffff) return false;
         return _initialized;
     }
+
+    fallback() external payable {
+        revert("disabled");
+    }
 }
