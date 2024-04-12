@@ -122,6 +122,27 @@ contract AccountProxyTest is Test {
         vm.expectRevert("Cannot own yourself");
         nft.safeTransferFrom(owner, account, tokenId);
     }
+    
+    function testCannotOwnSelfJay() public {
+        address owner = vm.addr(1);
+        address owner2 = vm.addr(2);
+        uint256 tokenId = 100;
+        bytes32 salt = bytes32(uint256(200));
+
+        nft.mint(owner, tokenId);
+
+        vm.prank(owner, owner);
+        address account = registry.createAccount(
+            address(implementation), salt, block.chainid, address(nft), tokenId
+        );
+
+        vm.prank(owner);
+        // vm.expectRevert("Cannot own yourself");
+        nft.safeTransferFrom(owner, owner2, tokenId);
+        console.log(owner2);
+        console.log(nft.ownerOf(tokenId));
+        assertEq(owner2, nft.ownerOf(tokenId));
+    }
 
     function testCannotHaveCircularOwnershipChain() public {
         address owner1 = vm.addr(1);
